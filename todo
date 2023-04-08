@@ -1,0 +1,77 @@
+
+import './App.css';
+// import {User} from "./User";
+import {useState} from "react";
+import{Task }from "./Task"
+function App() {
+const[todolist,settodolist]=useState([]);
+const[newtask,setnewtask]=useState("")
+const handlechange=(event)=>{
+setnewtask(event.target.value);
+}
+const addtask=()=>{
+  const task={
+    id:todolist.length===0?1:todolist[todolist.length-1].id+1,
+    taskname:newtask,
+    completed:false
+  }
+  const newtodolist=[...todolist,task];
+  settodolist(newtodolist);
+}
+const deletetask=(id)=>{
+const newtodolists=todolist.filter((task)=>  task.id!==id);
+settodolist(newtodolists);
+};
+const completetask=(id)=>{
+  settodolist(
+    todolist.map((task)=>{
+      if(task.id===id){
+        return{...task,completed:true};
+      }
+      else{
+        return task;
+      }
+    })
+  );
+};
+  return (
+  
+    <div className="App">
+<div>
+  <input onChange={handlechange} />
+  <button onClick={addtask}>addtask</button>
+</div>
+<div>
+  {todolist.map((task)=>{
+    return( 
+  <Task taskname={task.taskname} id={task.id} deletetask={deletetask} completed={task.completed} completetask={completetask}/>
+  );
+  })}
+</div>
+    </div>
+  
+  )
+}
+
+
+export default App;
+
+
+
+
+
+
+
+
+
+
+Task.js
+ export const Task=(props)=>{
+    return( 
+        <div style={{backgroundColor:props.completed?"green":"white"}}> 
+        <h1>{props.taskname}</h1>
+        <button onClick={()=>props.completetask(props.id)}>complete</button>
+        <button onClick= {()=> props.deletetask(props.id) }>X</button>
+        </div>
+    );
+};

@@ -1,0 +1,29 @@
+
+import './App.css';
+import Axios from"axios";
+import {useState,useEffect} from "react";
+function App() {
+  const[generateexcuse,setgenerateexcuse]=useState("");
+  const fetchexcuse=(excuse)=>{
+    Axios.get('htps://excuser.herokuapp.com/v1/excuse/${excuse}/').then((res)=>{
+      setgenerateexcuse(res.data[0].excuse);
+    })
+    // .catch((error )=> {
+    //   return error;
+    // });
+  };
+
+  return (
+<div className="App">
+<h1>Generate an excuse</h1>
+<button onClick={()=>alert("akanksha")}>Party</button>
+<button onClick={fetchexcuse("family")}>family</button>
+<button onClick={fetchexcuse("office")}>office</button>
+<p>{generateexcuse}</p>
+</div>
+  
+  );
+}
+
+
+export default App;
